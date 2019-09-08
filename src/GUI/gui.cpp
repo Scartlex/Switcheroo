@@ -1,14 +1,14 @@
 #include <SDL2/SDL.h>
 #include "gui.h"
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH 1920
+#define SCREEN_HEIGHT 1080
 
 static SDL_Window* window;
 static SDL_Renderer* renderer;
 
 void freeGui();
-void renderSquare(int x, int y, RGBA rgba);
+void renderRectangle(int x, int y, int w, int h, RGBA rgba);
 
 int initializeWindow() {
     //Check if SDL2 can be initialized
@@ -19,10 +19,11 @@ int initializeWindow() {
 
     //Setting up the window
     window = SDL_CreateWindow("Switcheroo",
-			    SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+			    0, 0,
 			    SCREEN_WIDTH, SCREEN_HEIGHT,
 			    SDL_WINDOW_SHOWN
 			    );
+    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 
     //If shit's trashed
     if (window == NULL) {
@@ -33,14 +34,13 @@ int initializeWindow() {
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
-
-    renderSquare(0, 0, {0, 0, 255, 255});
-
-    SDL_Delay(2000);
-
-    freeGui();
     return 0;
 }
+
+void delay(int time) {
+    SDL_Delay(time);
+}
+
 
 void freeGui() {
     SDL_DestroyWindow(window);
@@ -48,9 +48,15 @@ void freeGui() {
     SDL_Quit();
 }
 
-void renderSquare(int x, int y, RGBA rgba) {
-    SDL_Rect rect = {x, y, 50, 50};
+void renderRectangle(int x, int y, int w, int h, RGBA rgba, bool fill) {
+    SDL_Rect rect = {x, y, w, h};
     SDL_SetRenderDrawColor( renderer, rgba.r, rgba.g, rgba.b, rgba.a );
-    SDL_RenderFillRect(renderer, &rect);
+    if(fill)
+        SDL_RenderFillRect(renderer, &rect);
+    else
+        SDL_RenderDrawRect(renderer, &rect);
+}
+
+void commit() {
     SDL_RenderPresent(renderer);
 }

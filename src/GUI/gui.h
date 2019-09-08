@@ -5,12 +5,6 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 
-#define WINDOW_HEIGHT 500
-#define WINDOW_WIDTH 600
-
-#define RECT_HEIGHT 50
-#define RECT_WIDTH 50
-
 struct RGBA {
     int r;
     int g;
@@ -19,7 +13,9 @@ struct RGBA {
 };
 
 int initializeWindow();
-
-void renderSquare(int x, int y, RGBA rgba);
+void freeGui();
+void delay(int time);
+void renderRectangle(int x, int y, int w, int h, RGBA rgba, bool fill);
+void commit();
 
 #endif
