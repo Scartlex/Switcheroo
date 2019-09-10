@@ -9,10 +9,9 @@ using namespace std;
 
 class Level {
 
-    int rows, cols; //Dimensions
-    vector< vector<Square> > terrain; //Main terrain, filled with squares
-
     public:
+        int rows, cols; //Dimensions
+        vector< vector<Square> > terrain; //Main terrain, filled with squares
         Level(int, int); //Constructor will initialize the size of the board
         ~Level();
         void render() {
@@ -24,8 +23,10 @@ class Level {
             commit();
         }
         Square* getSquare(int row, int col) {
-            Square* square = &terrain[row][col];
-            return square;
+            if(row >= 0 && row < rows && col >= 0 && col < cols) {
+                Square* square = &terrain[row][col];
+                return square;
+            } else return NULL;
         }
 
 };
@@ -36,7 +37,7 @@ Level::Level(int r, int c) {
     terrain.resize(rows, vector<Square>(cols)); //Resize and populate 2D-vector
     for(int row = 0; row < rows; row++){
         for(int col = 0; col < cols; col++){
-            terrain[row][col] = Square(row*50, col*50);
+            terrain[row][col] = Square(row, col);
         }
     }
 }

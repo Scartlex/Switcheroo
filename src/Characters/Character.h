@@ -5,17 +5,24 @@
 #include "../Terrain/Level.h"
 
 class Character {
-    Level* currentLevel;
-    Square* currentSquare;
-
     public:
+        Level* currentLevel;
+        Square* currentSquare;
         Character(Level*);
         void place(int row, int col) {
             Square* square = currentLevel->getSquare(row, col);
-            square->occupied = true;
+            if(square != NULL) {
+                square->occupied = true;
+                if(currentSquare != NULL)
+                    currentSquare->occupied = false;
+                currentSquare = square;
+            }
+        }
+        void move(int x, int y) {
             if(currentSquare != NULL)
-                currentSquare->occupied = false;
-            currentSquare = square;
+                place(currentSquare->x + x, currentSquare->y + y);
+            else
+                place(0, 0);
         }
 };
 

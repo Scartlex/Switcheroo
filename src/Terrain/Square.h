@@ -13,11 +13,10 @@ class Square {
         Square(int xPos, int yPos) : x(xPos), y(yPos), occupied(0){}
         void render() {
             if(x != -1 && y != -1) {
-                printf("Rendering @ %d %d with occupied == %d\n", x, y, occupied);
                 if(occupied)
-                    renderRectangle(x, y, 50, 50, {255, 0, 0, 255}, true);
+                    renderRectangle(x*50, y*50, 50, 50, {255, 0, 0, 255}, true);
                 else
-                    renderRectangle(x, y, 50, 50, {0, 0, 0, 255}, false);
+                    renderRectangle(x*50, y*50, 50, 50, {0, 0, 0, 255}, false);
             }
         }
 };

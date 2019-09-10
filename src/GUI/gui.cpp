@@ -59,4 +59,6 @@ void renderRectangle(int x, int y, int w, int h, RGBA rgba, bool fill) {
 
 void commit() {
     SDL_RenderPresent(renderer);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderClear(renderer);
 }
