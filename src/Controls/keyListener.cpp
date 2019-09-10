@@ -15,32 +15,23 @@ void keyListener(void(*onKeyEvent)(int)) {
 
         if(keys[SDL_SCANCODE_ESCAPE])
             looping = false;
+        else if(keys[SDL_SCANCODE_W] && keys[SDL_SCANCODE_A])
+            onKeyEvent(NORTHWEST);
+        else if(keys[SDL_SCANCODE_S] && keys[SDL_SCANCODE_A])
+            onKeyEvent(SOUTHWEST);
+        else if(keys[SDL_SCANCODE_S] && keys[SDL_SCANCODE_D])
+            onKeyEvent(SOUTHEAST);
+        else if(keys[SDL_SCANCODE_W] && keys[SDL_SCANCODE_D])
+            onKeyEvent(NORTHEAST);
         else if(keys[SDL_SCANCODE_W])
-            onKeyEvent(SDLK_w);
+            onKeyEvent(NORTH);
         else if(keys[SDL_SCANCODE_A])
-            onKeyEvent(SDLK_a);
+            onKeyEvent(WEST);
         else if(keys[SDL_SCANCODE_S])
-            onKeyEvent(SDLK_s);
+            onKeyEvent(SOUTH);
         else if(keys[SDL_SCANCODE_D])
-            onKeyEvent(SDLK_d);
+            onKeyEvent(EAST);
 
         usleep(100000);
     }
 }
-
-/* void keyListener(void(*onKeyEvent)(int)) {
-    SDL_Event event;
-    bool looping = true;
-    while(looping) {
-        SDL_PollEvent(&event);
-        if(event.type == SDL_KEYDOWN)
-            switch(event.key.keysym.sym){
-                case SDLK_ESCAPE:
-                    looping = false;
-                    break;
-                default:
-                    onKeyEvent(event.key.keysym.sym);
-                    break;
-            }
-    }
-} */

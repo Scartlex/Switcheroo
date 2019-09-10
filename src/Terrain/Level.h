@@ -20,7 +20,6 @@ class Level {
                     terrain[row][col].render();
                 }
             }
-            commit();
         }
         Square* getSquare(int row, int col) {
             if(row >= 0 && row < rows && col >= 0 && col < cols) {

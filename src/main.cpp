@@ -9,22 +9,38 @@
 static Level level(10, 10);
 static Character character(&level);
 
+void render() {
+    character.moveAnimation();
+}
+
 void onKey(int key) {
     switch(key){
-        case SDLK_w:
+        case NORTHWEST:
+            character.move(-1, -1);
+            break;
+        case SOUTHWEST:
+            character.move(-1, 1);
+            break;
+        case SOUTHEAST:
+            character.move(1, 1);
+            break;
+        case NORTHEAST:
+            character.move(1, -1);
+            break;
+        case NORTH:
             character.move(0, -1);
             break;
-        case SDLK_a:
+        case WEST:
             character.move(-1, 0);
             break;
-        case SDLK_s:
+        case SOUTH:
             character.move(0, 1);
             break;
-        case SDLK_d:
+        case EAST:
             character.move(1, 0);
             break;
     }
-    level.render();
+    render();
 }
 
 int main(int argc, char* args[]) {
@@ -32,6 +48,8 @@ int main(int argc, char* args[]) {
     character.place(5, 5);
     std::thread t1(keyListener, &onKey);
     level.render();
+    character.render();
+    commit();
     t1.join();
     freeGui();
     return EXIT_SUCCESS;
