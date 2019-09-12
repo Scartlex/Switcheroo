@@ -12,10 +12,13 @@ struct RGBA {
     int a;
 };
 
+extern SDL_Window* window;
+extern SDL_Surface* windowSurface;
+
 int initializeWindow();
 void freeGui();
 void delay(int time);
-void renderRectangle(int x, int y, int w, int h, RGBA rgba, bool fill);
-void commit();
+/* void renderRectangle(int x, int y, int w, int h, RGBA rgba, bool fill);
+void commit(); */
 
 #endif

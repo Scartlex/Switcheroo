@@ -15,14 +15,14 @@ void keyListener(void(*onKeyEvent)(int)) {
 
         if(keys[SDL_SCANCODE_ESCAPE])
             looping = false;
-        else if(keys[SDL_SCANCODE_W] && keys[SDL_SCANCODE_A])
+        /* else if(keys[SDL_SCANCODE_W] && keys[SDL_SCANCODE_A])
             onKeyEvent(NORTHWEST);
         else if(keys[SDL_SCANCODE_S] && keys[SDL_SCANCODE_A])
             onKeyEvent(SOUTHWEST);
         else if(keys[SDL_SCANCODE_S] && keys[SDL_SCANCODE_D])
             onKeyEvent(SOUTHEAST);
         else if(keys[SDL_SCANCODE_W] && keys[SDL_SCANCODE_D])
-            onKeyEvent(NORTHEAST);
+            onKeyEvent(NORTHEAST); */
         else if(keys[SDL_SCANCODE_W])
             onKeyEvent(NORTH);
         else if(keys[SDL_SCANCODE_A])
@@ -32,6 +32,6 @@ void keyListener(void(*onKeyEvent)(int)) {
         else if(keys[SDL_SCANCODE_D])
             onKeyEvent(EAST);
 
-        usleep(100000);
+        usleep(10000);
     }
 }

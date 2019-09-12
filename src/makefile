@@ -1,6 +1,6 @@
 SOURCES = $(wildcard *.cpp) $(wildcard */*.cpp) #Includes all the source files from the root directory as well as all subdirectories (but it does not go deeper than 1 level)
 OBJECTS = $(SOURCES:.cpp=.o) #All the object files associated with the source files
-FLAGS   = -lSDL2 -std=c++0x -pthread #All necessary flags
+FLAGS   = -lSDL2 -lSDL2_image -std=c++11 -pthread #All necessary flags
 
 all: $(OBJECTS)
 	g++ $(OBJECTS) $(FLAGS) -o main

@@ -3,19 +3,17 @@
 #include <thread>
 #include "GUI/gui.h"
 #include "Terrain/Level.h"
+#include "Terrain/Square.h"
 #include "Characters/Character.h"
 #include "Controls/keyListener.h"
 
-static Level level(10, 10);
-static Character character(&level);
-
-void render() {
-    character.moveAnimation();
-}
+Level level(10, 10);
+Character character(&level);
 
 void onKey(int key) {
+    printf("%d\n", key);
     switch(key){
-        case NORTHWEST:
+        /* case NORTHWEST:
             character.move(-1, -1);
             break;
         case SOUTHWEST:
@@ -26,7 +24,7 @@ void onKey(int key) {
             break;
         case NORTHEAST:
             character.move(1, -1);
-            break;
+            break; */
         case NORTH:
             character.move(0, -1);
             break;
@@ -40,7 +38,7 @@ void onKey(int key) {
             character.move(1, 0);
             break;
     }
-    render();
+    character.moveAnimation();
 }
 
 int main(int argc, char* args[]) {
@@ -48,8 +46,9 @@ int main(int argc, char* args[]) {
     character.place(5, 5);
     std::thread t1(keyListener, &onKey);
     level.render();
-    character.render();
-    commit();
+    character.render(NULL, "");
+    SDL_UpdateWindowSurface(window);
+    /* commit(); */
     t1.join();
     freeGui();
     return EXIT_SUCCESS;

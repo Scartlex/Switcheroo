@@ -2,6 +2,7 @@
 #define LEVEL_H_
 
 #include <vector>
+#include <SDL2/SDL.h>
 #include "Square.h"
 #include "../GUI/gui.h"
 
@@ -12,14 +13,15 @@ class Level {
     public:
         int rows, cols; //Dimensions
         vector< vector<Square> > terrain; //Main terrain, filled with squares
-        Level(int, int); //Constructor will initialize the size of the board
+        Level(int r, int c); //Constructor will initialize the size of the board
         ~Level();
         void render() {
-            for(int row = 0; row < rows; row++){
-                for(int col = 0; col < cols; col++){
-                    terrain[row][col].render();
+            if(rows != -1 && cols != -1)
+                for(int row = 0; row < rows; row++){
+                    for(int col = 0; col < cols; col++){
+                        terrain[row][col].render();
+                    }
                 }
-            }
         }
         Square* getSquare(int row, int col) {
             if(row >= 0 && row < rows && col >= 0 && col < cols) {
@@ -27,13 +29,12 @@ class Level {
                 return square;
             } else return NULL;
         }
-
 };
 
 Level::Level(int r, int c) {
     rows=r;
     cols=c;
-    terrain.resize(rows, vector<Square>(cols)); //Resize and populate 2D-vector
+    terrain.resize(r, vector<Square>(c)); //Resize and populate 2D-vector
     for(int row = 0; row < rows; row++){
         for(int col = 0; col < cols; col++){
             terrain[row][col] = Square(row, col);
