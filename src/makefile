@@ -23,6 +23,9 @@ keyListener.o: Controls/keyListener.cpp Controls/keyListener.h
 main.o: main.cpp main.h GUI/gui.h Terrain/Square.h Controls/keyListener.h Characters/Character.h
 	g++ main.cpp -c -o main.o
 
+Timer.o: Timer.cpp Timer.h
+	g++ Timer.cpp -c -o Timer.o
+
 .PHONY:clean
 clean:
 	find . -name "*.o" | xargs rm -vf

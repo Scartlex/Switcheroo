@@ -2,7 +2,7 @@
 #include <unistd.h>
 #include "keyListener.h"
 
-void keyListener(void(*onKeyEvent)(int)) {
+void keyListener(void(*onKeyEvent)(Directions)) {
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
     SDL_Event event;
     bool looping = true;
@@ -15,14 +15,6 @@ void keyListener(void(*onKeyEvent)(int)) {
 
         if(keys[SDL_SCANCODE_ESCAPE])
             looping = false;
-        /* else if(keys[SDL_SCANCODE_W] && keys[SDL_SCANCODE_A])
-            onKeyEvent(NORTHWEST);
-        else if(keys[SDL_SCANCODE_S] && keys[SDL_SCANCODE_A])
-            onKeyEvent(SOUTHWEST);
-        else if(keys[SDL_SCANCODE_S] && keys[SDL_SCANCODE_D])
-            onKeyEvent(SOUTHEAST);
-        else if(keys[SDL_SCANCODE_W] && keys[SDL_SCANCODE_D])
-            onKeyEvent(NORTHEAST); */
         else if(keys[SDL_SCANCODE_W])
             onKeyEvent(NORTH);
         else if(keys[SDL_SCANCODE_A])
@@ -32,6 +24,6 @@ void keyListener(void(*onKeyEvent)(int)) {
         else if(keys[SDL_SCANCODE_D])
             onKeyEvent(EAST);
 
-        usleep(10000);
+        SDL_Delay(10);
     }
 }

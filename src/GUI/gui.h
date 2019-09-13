@@ -15,10 +15,10 @@ struct RGBA {
 extern SDL_Window* window;
 extern SDL_Surface* windowSurface;
 
+extern SDL_Renderer* renderer;
+
 int initializeWindow();
 void freeGui();
-void delay(int time);
-/* void renderRectangle(int x, int y, int w, int h, RGBA rgba, bool fill);
-void commit(); */
+SDL_Texture* loadTexture(std::string path);
 
 #endif

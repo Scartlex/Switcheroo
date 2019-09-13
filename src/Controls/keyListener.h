@@ -5,14 +5,9 @@ enum Directions {
     NORTH,
     WEST,
     SOUTH,
-    EAST,
-
-    NORTHWEST,
-    SOUTHWEST,
-    SOUTHEAST,
-    NORTHEAST
+    EAST
 };
 
-void keyListener(void(*onKeyEvent)(int));
+void keyListener(void(*onKeyEvent)(Directions));
 
 #endif

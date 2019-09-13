@@ -8,6 +8,8 @@
 #include <unistd.h>
 #include <iostream>
 #include <string>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 class Character {
     public:
@@ -33,67 +35,38 @@ class Character {
             else
                 place(0, 0);
         }
-        void moveAnimation() {
-            if(currentSquare != NULL && previousSquare != NULL){
-                int oldX = previousSquare->rect.x;
-                int oldY = previousSquare->rect.y;
-                int newX = currentSquare->rect.x;
-                int newY = currentSquare->rect.y;
-
-                int spriteRenderCycle = 1;
-                int renderDelay = 0;
-                int direction = NORTH;
-                if(oldX < newX) direction = EAST;
-                else if(oldX > newX) direction = WEST;
-                else if(oldY < newY) direction = SOUTH;
-                string sprite = "";
-                switch(direction){
-                    case NORTH: sprite = "back/";break;
-                    case EAST:  sprite = "right/";break;
-                    case SOUTH: sprite = "front/";break;
-                    case WEST: sprite = "left/";break;
-                }
-                
-                while(oldX != newX || oldY != newY){
-                    switch(direction) {
-                        case NORTH: oldY-=4;break;
-                        case EAST:  oldX+=4;break;
-                        case SOUTH: oldY+=4;break;
-                        case WEST:  oldX-=4;break;
-                    }
-                    previousSquare->render();
-                    currentSquare->render();
-                    SDL_Rect rect;
-                    rect.x = oldX;
-                    rect.y = oldY;
-                    rect.w = previousSquare->rect.w;
-                    rect.h = previousSquare->rect.h;
-
-                    if(renderDelay == 5) {
-                        printf("Using new sprite to render with \n");
-                        if(spriteRenderCycle == 3)spriteRenderCycle = 0; else spriteRenderCycle++;
-                        renderDelay = 0;
-                    } else renderDelay++;
-                    render(&rect, sprite + std::to_string(spriteRenderCycle));
-
-                    usleep(10000);
-                }
-                render(NULL, sprite + "1");
+        void moveAnimation(string sprite, int spriteRenderCycle, Directions direction, int pixelOffset) {
+            int y=previousSquare->rect.y, x=previousSquare->rect.x;
+            switch(direction) {
+                case NORTH: y=previousSquare->rect.y-pixelOffset;break;
+                case EAST:  x=previousSquare->rect.x+pixelOffset;break;
+                case SOUTH: y=previousSquare->rect.y+pixelOffset;break;
+                case WEST:  x=previousSquare->rect.x-pixelOffset;break;
             }
+            std::cout << "\tpreviousX: " << previousSquare->rect.x << ", previousY: " << previousSquare->rect.y << "\n";
+            std::cout << "\tPlacing character @ x: " << x << ", y: " << y << "\n";
+
+            SDL_Rect rect;
+            rect.x = x;
+            rect.y = y;
+            rect.w = previousSquare->rect.w;
+            rect.h = previousSquare->rect.h;
+
+            render(&rect, sprite + std::to_string(spriteRenderCycle));
         }
         void render(SDL_Rect* rect, string sprite) {
             if(currentSquare != NULL) {
                 if(sprite == "")
-                    surface = SDL_LoadBMP("GUI/res/sprites/character/front/1.bmp");
-                else surface = SDL_LoadBMP(("GUI/res/sprites/character/" + sprite + ".bmp").c_str());
+                    texture = loadTexture("GUI/res/sprites/character/front/1.bmp");
+                else texture = loadTexture(("GUI/res/sprites/character/" + sprite + ".bmp").c_str());
+
                 if(rect == NULL)
-                    SDL_BlitSurface(surface, NULL, windowSurface, &currentSquare->rect);
-                else SDL_BlitSurface(surface, NULL, windowSurface, rect);
-                SDL_UpdateWindowSurface(window);
+                    SDL_RenderCopy(renderer, texture, NULL, &currentSquare->rect);
+                else SDL_RenderCopy(renderer, texture, NULL, rect);
             }
         }
     private:
-        SDL_Surface* surface;
+        SDL_Texture* texture;
 };
 
 Character::Character(Level* level){
@@ -101,7 +74,7 @@ Character::Character(Level* level){
 }
 
 Character::~Character() {
-    SDL_FreeSurface(surface);
+    
 }
 
 #endif

@@ -4,6 +4,9 @@
 #include "../GUI/gui.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <string>
+
+#define STANDARD_LENGTH 64
 
 class Square {
 
@@ -15,22 +18,30 @@ class Square {
         Square() : row(-1), col(-1), occupied(0) {}
         Square(int xPos, int yPos);
         ~Square(void);
+        void load(std::string type) {
+            texture = loadTexture("GUI/res/sprites/terrain/" + type + ".bmp");
+        }
         int render() {
-            SDL_FillRect(surface, NULL, 0x000000);
-            surface = SDL_LoadBMP("GUI/res/sprites/terrain/grass.bmp");
-            SDL_BlitSurface(surface, NULL, windowSurface, &rect);
+            SDL_RenderCopy(renderer, texture, NULL, &rect);
+        }
+        void move(int x, int y) {
+            place(rect.x+x, rect.y+y);
+        }
+        void place(int x, int y) {
+            rect.x = x;
+            rect.y = y;
         }
     private:
-        SDL_Surface* surface;
+        SDL_Texture* texture;
 };
 
 Square::Square(int xPos, int yPos) {
     row = xPos;
     col = yPos;
-    rect.x = xPos*64;
-    rect.y = yPos*64;
-    rect.w = 64;
-    rect.h = 64;
+    rect.x = xPos*STANDARD_LENGTH;
+    rect.y = yPos*STANDARD_LENGTH;
+    rect.w = STANDARD_LENGTH;
+    rect.h = STANDARD_LENGTH;
     occupied = false;
 }
 
